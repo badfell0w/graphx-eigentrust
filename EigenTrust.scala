@@ -53,7 +53,7 @@ object EigenTrust {
 
     val outDegrees = preGraph.vertices.leftZipJoin(graph.outDegrees) { (vid, a, b) => b.getOrElse(0) }
     val sinks = outDegrees.filter( t => t._2 == 0).map( t => t._1 )
-    val peerEdges = sinks.map( id => org.apache.spark.graphx.Edge(id, 1, 1.0))
+    val peerEdges = sinks.map( id => org.apache.spark.graphx.Edge(id, srcId, 1.0))
     val allEdges = normedEdges ++ peerEdges
     val eigentrustGraph = Graph.fromEdges(allEdges, (0.0, Double.PositiveInfinity)).cache()
 
